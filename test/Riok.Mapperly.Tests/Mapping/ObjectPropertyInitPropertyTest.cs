@@ -192,4 +192,16 @@ public class ObjectPropertyInitPropertyTest
     target.IntValue = source.IntValue;
     return target;");
     }
+
+    [Fact]
+    public Task RequiredPropertySourceNotFoundShouldDiagnostic()
+    {
+        var source = TestSourceBuilder.Mapping(
+            "A",
+            "B",
+            "class A { public string StringValue2 { get; init; } public int IntValue { get; set; } }",
+            "class B { public required string StringValue { get; init; } public int IntValue { get; set; } }");
+
+        return TestHelper.VerifyGenerator(source);
+    }
 }
