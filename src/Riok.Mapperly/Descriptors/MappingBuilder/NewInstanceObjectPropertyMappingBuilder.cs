@@ -44,7 +44,7 @@ public static class NewInstanceObjectPropertyMappingBuilder
 
     private static void BuildInitOnlyPropertyMappings(NewInstanceMappingBuilderContext ctx)
     {
-        var initOnlyTargetProperties = ctx.TargetProperties.Values.Where(x => x.IsInitOnly()).ToArray();
+        var initOnlyTargetProperties = ctx.TargetProperties.Values.Where(x => x.IsInitOnly() || x.IsRequired).ToArray();
         foreach (var targetProperty in initOnlyTargetProperties)
         {
             ctx.TargetProperties.Remove(targetProperty.Name);
