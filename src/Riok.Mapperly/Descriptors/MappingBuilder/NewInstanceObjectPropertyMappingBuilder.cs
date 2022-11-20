@@ -62,7 +62,9 @@ public static class NewInstanceObjectPropertyMappingBuilder
                 out var sourcePropertyPath))
             {
                 ctx.BuilderContext.ReportDiagnostic(
-                    DiagnosticDescriptors.MappingSourcePropertyNotFound,
+                    targetProperty.IsRequired
+                        ? DiagnosticDescriptors.RequiredPropertyNotMapped
+                        : DiagnosticDescriptors.MappingSourcePropertyNotFound,
                     targetProperty.Name,
                     ctx.Mapping.SourceType);
                 continue;
