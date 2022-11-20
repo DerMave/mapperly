@@ -182,4 +182,11 @@ internal static class DiagnosticDescriptors
         DiagnosticCategories.Mapper,
         DiagnosticSeverity.Error,
         true);
+    public static readonly DiagnosticDescriptor RequiredPropertyNotMapped = new DiagnosticDescriptor(
+        "RMG023",
+        "Source property was not found for required target property",
+         "Required property {0} on mapping target type {1} was not found",
+        DiagnosticCategories.Mapper,
+        DiagnosticSeverity.Error,
+        true);
 }

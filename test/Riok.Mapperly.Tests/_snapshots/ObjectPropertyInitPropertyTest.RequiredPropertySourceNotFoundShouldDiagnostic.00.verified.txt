@@ -1,15 +1,15 @@
 ﻿{
   Diagnostics: [
     {
-      Id: RMG012,
-      Title: Mapping source property not found,
-      Severity: Info,
-      WarningLevel: 1,
+      Id: RMG023,
+      Title: Source property was not found for required target property,
+      Severity: Error,
+      WarningLevel: 0,
       Location: : (10,4)-(10,28),
       Description: ,
       HelpLink: ,
-      MessageFormat: Property {0} on source type {1} was not found,
-      Message: Property StringValue on source type A was not found,
+      MessageFormat: Required property {0} on mapping target type {1} was not found,
+      Message: Required property StringValue on mapping target type A was not found,
       Category: Mapper
     },
     {
