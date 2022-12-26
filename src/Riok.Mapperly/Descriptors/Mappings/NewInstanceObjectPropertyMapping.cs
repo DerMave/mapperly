@@ -17,9 +17,11 @@ public class NewInstanceObjectPropertyMapping : ObjectPropertyMapping
 
     public NewInstanceObjectPropertyMapping(
         ITypeSymbol sourceType,
-        ITypeSymbol targetType)
+        ITypeSymbol targetType,
+        IList<IParameterSymbol> additionalParameters)
         : base(sourceType, targetType)
     {
+        AdditionalParameters = additionalParameters;
     }
 
     public void AddConstructorParameterMapping(ConstructorParameterMapping mapping)

@@ -39,7 +39,7 @@ public static class UserMethodMappingBuilder
 
     public static void BuildMappingBody(MappingBuilderContext ctx, UserDefinedNewInstanceMethodMapping mapping)
     {
-        var delegateMapping = ctx.BuildDelegateMapping(mapping.SourceType, mapping.TargetType);
+        var delegateMapping = ctx.BuildDelegateMapping(mapping.SourceType, mapping.TargetType, mapping.AdditionalParameters);
         if (delegateMapping != null)
         {
             mapping.SetDelegateMapping(delegateMapping);
@@ -108,13 +108,13 @@ public static class UserMethodMappingBuilder
     }
 
     private static bool IsExistingInstanceMappingMethod(IMethodSymbol m)
-        => m.Parameters.Length == 2
+        => m.Parameters.Length >= 2
             && m.ReturnsVoid
             && !m.IsAsync
             && !m.IsGenericMethod;
 
     private static bool IsNewInstanceMappingMethod(IMethodSymbol m)
-        => m.Parameters.Length == 1
+        => m.Parameters.Length >= 1
             && !m.ReturnsVoid
             && !m.IsAsync
             && !m.IsGenericMethod;

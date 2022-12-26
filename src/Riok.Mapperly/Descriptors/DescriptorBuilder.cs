@@ -91,6 +91,7 @@ public class DescriptorBuilder
     {
         ReserveMethodNames();
         ExtractObjectFactories();
+        ExtractAdditionalParameters();
         ExtractUserMappings();
         BuildMappingBodies();
         BuildMappingMethodNames();
@@ -127,9 +128,11 @@ public class DescriptorBuilder
     public TypeMapping? BuildDelegateMapping(
         ISymbol? userSymbol,
         ITypeSymbol sourceType,
-        ITypeSymbol targetType)
+        ITypeSymbol targetType,
+        IList<IParameterSymbol> additionalParameters = null)
     {
-        var ctx = new MappingBuilderContext(this, sourceType, targetType, userSymbol);
+        
+        var ctx = new MappingBuilderContext(this, sourceType, targetType, userSymbol, additionalParameters);
         foreach (var mappingBuilder in _mappingBuilders)
         {
             if (mappingBuilder(ctx) is { } mapping)
@@ -145,6 +148,25 @@ public class DescriptorBuilder
     internal void ReportDiagnostic(DiagnosticDescriptor descriptor, Location? location, params object[] messageArgs)
         => _context.ReportDiagnostic(Diagnostic.Create(descriptor, location ?? _mapperDescriptor.Syntax.GetLocation(), messageArgs));
 
+
+
+    private void ExtractAdditionalParameters()
+    {
+        var x = this;
+
+        var defaultContext = new SimpleMappingBuilderContext(this);
+        //foreach (var userMapping in UserMethodMappingBuilder.ExtractUserMappings(defaultContext, _mapperSymbol))
+        //{
+        //    AddUserMapping(userMapping);
+
+        //    var ctx = new MappingBuilderContext(
+        //        this,
+        //        userMapping.SourceType,
+        //        userMapping.TargetType,
+        //        (userMapping as IUserMapping)?.Method);
+        //    _mappingsToBuildBody.Enqueue((userMapping, ctx));
+        //}
+    }
     private void ExtractUserMappings()
     {
         var defaultContext = new SimpleMappingBuilderContext(this);

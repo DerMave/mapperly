@@ -15,17 +15,20 @@ public class UserDefinedNewInstanceMethodMapping : MethodMapping, IUserMapping
     private TypeMapping? _delegateMapping;
 
     public UserDefinedNewInstanceMethodMapping(IMethodSymbol method)
-        : base(method.Parameters.Single().Type.UpgradeNullable(), method.ReturnType.UpgradeNullable())
+        : base(method.Parameters.First().Type.UpgradeNullable(), method.ReturnType.UpgradeNullable())
     {
         IsPartial = true;
         IsExtensionMethod = method.IsExtensionMethod;
         Accessibility = method.DeclaredAccessibility;
         MappingSourceParameterName = method.Parameters[0].Name;
+        AdditionalParameters = method.Parameters.Skip(1).ToList();
         Method = method;
         MethodName = method.Name;
     }
 
     public IMethodSymbol Method { get; }
+
+    public IList<IParameterSymbol> AdditionalParameters { get; }
 
     public void SetDelegateMapping(TypeMapping delegateMapping)
         => _delegateMapping = delegateMapping;

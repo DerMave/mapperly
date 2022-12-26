@@ -11,18 +11,21 @@ public class MappingBuilderContext : SimpleMappingBuilderContext
 {
     private readonly DescriptorBuilder _builder;
     private readonly ISymbol? _userSymbol;
+    public IList<IParameterSymbol> AdditionalParameters { get; }
 
     public MappingBuilderContext(
         DescriptorBuilder builder,
         ITypeSymbol source,
         ITypeSymbol target,
-        ISymbol? userSymbol)
+        ISymbol? userSymbol,
+        IList<IParameterSymbol> additionalParameters =null!)
         : base(builder)
     {
         _builder = builder;
         Source = source;
         Target = target;
         _userSymbol = userSymbol;
+        AdditionalParameters = additionalParameters;
     }
 
     public ITypeSymbol Source { get; }
@@ -56,8 +59,8 @@ public class MappingBuilderContext : SimpleMappingBuilderContext
     /// <param name="source">The source type.</param>
     /// <param name="target">The target type.</param>
     /// <returns>The created mapping or <c>null</c> if none could be created.</returns>
-    public TypeMapping? BuildDelegateMapping(ITypeSymbol source, ITypeSymbol target)
-        => _builder.BuildDelegateMapping(_userSymbol, source.UpgradeNullable(), target.UpgradeNullable());
+    public TypeMapping? BuildDelegateMapping(ITypeSymbol source, ITypeSymbol target, IList<IParameterSymbol> additionalParameters = null!)
+        => _builder.BuildDelegateMapping(_userSymbol, source.UpgradeNullable(), target.UpgradeNullable(), additionalParameters);
 
     public T GetConfigurationOrDefault<T>() where T : Attribute
     {
@@ -98,4 +101,6 @@ public class MappingBuilderContext : SimpleMappingBuilderContext
         ReportDiagnostic(DiagnosticDescriptors.NoParameterlessConstructorFound, targetType);
         return NullFallbackValue.ThrowArgumentNullException;
     }
+
+    internal bool AdditionalSourceParameters() => throw new NotImplementedException();
 }

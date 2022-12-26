@@ -36,12 +36,21 @@ public static class ObjectPropertyMappingBuilder
                 continue;
             }
 
+
+            PropertyPath? sourcePropertyPath = null;
+            bool foundInExtraParams = ctx.BuilderContext.AdditionalParameters.Where(x => x.Name.Equals(targetProperty.Name, StringComparison.InvariantCultureIgnoreCase)).Any();
+            if(foundInExtraParams)
+            {
+                var param = ctx.BuilderContext.AdditionalParameters.Where(x => x.Name.Equals(targetProperty.Name, StringComparison.InvariantCultureIgnoreCase)).First();
+                //sourcePropertyPath = new PropertyPath(new[] { param };
+            }
+
             if (!PropertyPath.TryFind(
                 ctx.Mapping.SourceType,
                 MemberPathCandidateBuilder.BuildMemberPathCandidates(targetProperty.Name),
                 ctx.IgnoredSourcePropertyNames,
                 propertyNameComparer,
-                out var sourcePropertyPath))
+                out sourcePropertyPath))
             {
                 ctx.BuilderContext.ReportDiagnostic(
                     DiagnosticDescriptors.MappingSourcePropertyNotFound,
@@ -50,6 +59,7 @@ public static class ObjectPropertyMappingBuilder
                 continue;
             }
 
+            
             BuildPropertyAssignmentMapping(ctx, sourcePropertyPath, new PropertyPath(new[] { targetProperty }));
         }
 

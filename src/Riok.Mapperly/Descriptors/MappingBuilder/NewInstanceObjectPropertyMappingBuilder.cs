@@ -21,7 +21,7 @@ public static class NewInstanceObjectPropertyMappingBuilder
         if (ctx.Target is not INamedTypeSymbol namedTarget || namedTarget.Constructors.All(x => !x.IsAccessible()))
             return null;
 
-        return new NewInstanceObjectPropertyMapping(ctx.Source, ctx.Target.NonNullable());
+        return new NewInstanceObjectPropertyMapping(ctx.Source, ctx.Target.NonNullable(), ctx.AdditionalParameters);
     }
 
     public static void BuildMappingBody(MappingBuilderContext ctx, NewInstanceObjectPropertyMapping mapping)

@@ -10,6 +10,7 @@ namespace Riok.Mapperly.Descriptors.Mappings;
 [DebuggerDisplay("{GetType()}({SourceType.Name} => {TargetType.Name})")]
 public abstract class TypeMapping
 {
+    public IList<IParameterSymbol> AdditionalParameters { get; protected set; } = null!;
     protected TypeMapping(ITypeSymbol sourceType, ITypeSymbol targetType)
     {
         SourceType = sourceType;
